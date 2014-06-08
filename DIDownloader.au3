@@ -10,22 +10,22 @@ $modified = "6/7/2014"
 #include <GuiConstantsEx.au3>
 #include <MsgBoxConstants.au3>
 #include <file.au3>
-#include <Array.au3>
 #include <ListBoxConstants.au3>
 #include <WindowsConstants.au3>
 #include <ButtonConstants.au3>
 #include <GUIButton.au3>
 #include <GuiEdit.au3>
 #include <GUIListBox.au3>
+#include <InetConstants.au3>
 
-Dim $download = @UserProfileDir & '\Downloads'
+Global $download = @UserProfileDir & '\Downloads'
+Global $tbLink
+Global $fileLink
+Global $fileName
+Global $validLink = False
 
 Dim $height = 275
 Dim $width = 450
-
-Global $input
-Global $output
-Global $fileName
 
 ; GUI Create
 GUICreate("DIDownloader", $width, $height)
@@ -52,62 +52,74 @@ GUISetState(@SW_SHOW)
 			Exit
 
 		 Case $bGo
-			$input = GUICtrlRead($iLink)
+			$tbLink = GUICtrlRead($iLink)
 			convertLink()
-			downloadFile()
+			If $validLink = True Then
+			   downloadFile()
+			EndIf
 	  EndSwitch
    WEnd
 
-;	http://www.driveridentifier.com/scan/download_file.php?url=ftp%3A%2F%2Fftp.hp.com%2Fpub%2Fsoftpaq%2Fsp57001-57500%2Fsp57362.exe&hardware_id=HDAUDIO%5CFUNC_01%26VEN_8086%26DEV_2805%26SUBSYS_80860101&driver_inf_file_id=1148560&scanid=9B21BBF9177F4517BE80C8D06A612834
-
-
    Func convertLink()
+	  If StringInStr($tbLink, "www.driveridentifier.com/scan/download_file.php?url=") <> 0 Then
+		 If StringRegExp($tbLink, "https://") = True Then
+			$fileLinkStart = StringLen("https://www.driveridentifier.com/scan/download_file.php?url=")
+		 ElseIf StringRegExp($tbLink, "http://") = true Then
+			$fileLinkStart = StringLen("http://www.driveridentifier.com/scan/download_file.php?url=")
+		 EndIf
 
-	  If StringRegExp($input, "https://") = True Then
-		 $linkStart = StringLen("https://www.driveridentifier.com/scan/download_file.php?url=")
-	  ElseIf StringRegExp($input, "http://") = true Then
-		 $linkStart = StringLen("http://www.driveridentifier.com/scan/download_file.php?url=")
-	  EndIf
+		 $fileLink = StringTrimLeft($tbLink, $fileLinkStart)
+		 $hardwareStr = StringInStr($fileLink, "&hardware_id=")
+		 $strCount = StringLen($fileLink)
 
-	  $output = StringTrimLeft($input, $linkStart)
-	  $hardwareStr = StringInStr($output, "&hardware_id=")
-	  $strCount = StringLen($output)
+		 $fileLink = StringTrimRight($fileLink, Abs($hardwareStr - $strCount - 1))
+		 $fileLink = StringReplace($fileLink, "%3A", ":")
+		 $fileLink = StringReplace($fileLink, "%2F", "/")
 
-	  $output = StringTrimRight($output, Abs($hardwareStr - $strCount - 1))
-	  $output = StringReplace($output, "%3A", ":")
-	  $output = StringReplace($output, "%2F", "/")
-	  $output = StringStripWS($output, 8)
+		 $lastSlash = StringInStr($fileLink, "/", 0, -1)
+		 $fileName = StringTrimLeft($fileLink, $lastSlash)
 
-	  $lastSlash = StringInStr($output, "/", 0, -1)
-	  $fileName = StringTrimLeft($output, $lastSlash)
+		 _GUICtrlListBox_BeginUpdate($oList)
+		 _GUICtrlListBox_AddString($oList, "Decoded: " & $fileLink)
+		 _GUICtrlListBox_AddString($oList, "")
+		 _GUICtrlListBox_EndUpdate($oList)
+
+		 $validLink = True
+   Else
+
+	  GUICtrlSetData($oList, "Invalid entry.")
+	  $validLink = False
+   EndIf
 
 EndFunc
 
 Func downloadFile()
-	  _GUICtrlListBox_BeginUpdate($oList)
-	  _GUICtrlListBox_AddString($oList, "Decoded: " & $output)
-	  _GUICtrlListBox_AddString($oList, "")
-	  _GUICtrlListBox_AddString($oList, "Downloading " & $output & "... 0%")
-	  Dim $fileGet = InetGet($output, $download & '\' & $fileName, 8, 1)
-	  $serverSize = InetGetSize($output, 2)
-	  _GUICtrlListBox_EndUpdate($oList)
 
-	  Do
 		 _GUICtrlListBox_BeginUpdate($oList)
-		 $fileSize = InetGetInfo($fileGet, 0)
-		 _GUICtrlListBox_DeleteString($oList, _GUICtrlListBox_GetCount($oList) - 1)
-		 Sleep(50)
-		 _GUICtrlListBox_AddString($oList, "Downloading " & $output & "... " & Round((($fileSize/$serverSize) * 100), 0) & "%")
+		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileLink & "... 0%")
 		 _GUICtrlListBox_EndUpdate($oList)
-		 sleep(50)
-	  Until InetGetInfo($fileGet, 2)
 
-	  InetClose($fileGet)
+		 Dim $fileGet = InetGet($fileLink, $download & '\' & $fileName, 8, 1)
+		 $serverSize = InetGetSize($fileLink, 2)
+		 If InetGetSize($fileLink, 2) = 0 Then
+			GUICtrlSetData($oList, "DOWNLOAD ERROR. File may not exist, or website is down.")
+		 Else
 
-	  _GUICtrlListBox_BeginUpdate($oList)
-	  _GUICtrlListBox_DeleteString($oList, _GUICtrlListBox_GetCount($oList) - 1)
-	  Sleep(10)
-	  _GUICtrlListBox_AddString($oList, "Downloading " & $output & "... 100%")
-	  _GUICtrlListBox_EndUpdate($oList)
+		 Do
+			_GUICtrlListBox_BeginUpdate($oList)
+			$fileSize = InetGetInfo($fileGet, 0)
+			_GUICtrlListBox_DeleteString($oList, _GUICtrlListBox_GetCount($oList) - 1)
+			_GUICtrlListBox_AddString($oList, "Downloading " & $fileLink & "... " & Round((($fileSize/$serverSize) * 100), 0) & "%")
+			_GUICtrlListBox_EndUpdate($oList)
+			Sleep(50)
+		 Until InetGetInfo($fileGet, 2)
 
+		 InetClose($fileGet)
+
+		 _GUICtrlListBox_BeginUpdate($oList)
+		 _GUICtrlListBox_DeleteString($oList, _GUICtrlListBox_GetCount($oList) - 1)
+		 Sleep(10)
+		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileLink & "... 100%")
+		 _GUICtrlListBox_EndUpdate($oList)
+	  EndIf
    EndFunc
