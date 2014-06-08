@@ -18,7 +18,7 @@ $modified = "6/7/2014"
 #include <GUIListBox.au3>
 #include <InetConstants.au3>
 
-Global $download = @UserProfileDir & '\Downloads'
+Global $download = @UserProfileDir & '\Downloads\Drivers'
 Global $tbLink
 Global $fileLink
 Global $fileName
@@ -98,6 +98,8 @@ Func downloadFile()
 		 _GUICtrlListBox_BeginUpdate($oList)
 		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileLink & "... 0%")
 		 _GUICtrlListBox_EndUpdate($oList)
+
+		 DirCreate($download)
 
 		 Dim $fileGet = InetGet($fileLink, $download & '\' & $fileName, 8, 1)
 		 $serverSize = InetGetSize($fileLink, 2)
