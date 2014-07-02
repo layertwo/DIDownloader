@@ -1,12 +1,22 @@
 ; DIDownloader
 ; Author: Lucas Messenger
-$version = "0.1"
+$version = "0.2"
 ; Created: 6/6/2014
-$modified = "6/7/2014"
+$modified = "7/2/2014"
 ; ---------------------------------
 ; Link parser and downloader for DriverIdentifier links
+; ---------------------------------
+; Icon: http://www.iconspedia.com/icon/resources-icon-35731.html
+; CC Attribution license for icon: https://creativecommons.org/licenses/by/3.0/
+
+#pragma compile(FileDescription, Link parser and file downloader)
+#pragma compile(ProductName, DIDownloader)
+#pragma compile(ProductVersion, 0.2)
+#pragma compile(FileVersion, 0.2.0.2)
+#pragma compile(LegalCopyright, 2014 - Lucas Messenger)
 
 
+#NoTrayIcon
 #include <GuiConstantsEx.au3>
 #include <MsgBoxConstants.au3>
 #include <file.au3>
