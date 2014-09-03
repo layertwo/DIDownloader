@@ -1,8 +1,9 @@
 ; DIDownloader
 ; Author: Lucas Messenger
-$version = "0.2"
+$prodVer = "0.2"
+$fileVer = "0.2.0.2"
 ; Created: 6/6/2014
-$modified = "7/2/2014"
+$modified = "9/2/2014"
 ; ---------------------------------
 ; Link parser and downloader for DriverIdentifier links
 ; ---------------------------------
@@ -27,7 +28,9 @@ $modified = "7/2/2014"
 #include <GuiEdit.au3>
 #include <GUIListBox.au3>
 #include <InetConstants.au3>
+#include "updater.au3"
 
+Global $latestLink = "https://github.com/lmessenger/DIDownloader/raw/master/DIDownloader.exe"
 Global $download = @UserProfileDir & '\Downloads\Drivers'
 Global $tbLink
 Global $fileLink
@@ -52,7 +55,9 @@ Dim $oList = GUICtrlCreateList("", 5, 60, 440, 200, BitOr($WS_VSCROLL, $WS_BORDE
 
 ; Labels
 GUICtrlCreateLabel("Paste Driver Identifier link below:", 5, 8)
-GUICtrlCreateLabel("DIDownloader v" & $version & " | Updated " & $modified, 5, $height - 20)
+GUICtrlCreateLabel("DIDownloader v" & $prodVer & " | Updated " & $modified, 5, $height - 20)
+
+_checkFileVersion()
 
 ; GUI MESSAGE LOOP
 GUISetState(@SW_SHOW)
