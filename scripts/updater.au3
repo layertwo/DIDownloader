@@ -3,6 +3,7 @@
 #include <file.au3>
 #include <MsgBoxConstants.au3>
 
+Global $title
 Global $localVer
 Global $latestVer
 Global $latestLink
@@ -21,7 +22,19 @@ Func _checkFileVersion()
    $latestVer = FileGetVersion($TempFile & $downName)
 
    If $latestVer > $localVer then
-	  MsgBox(3, "New version available", "New version " & $latestVer & " is available. The currently running version is " & $localVer & ". Would you like to update to the latest version?")
+	  ; New version found, asks user if they would like to update
+	  $updateResponse = MsgBox(3, "New version available", "New version " & $latestVer & " is available. The currently running version is " & $localVer & ". Would you like to update to the latest version?")
+
+		 ; If response is Yes
+		 If $updateResponse = 6 Then
+
+			; Move downloaded file from temp directory to running directory
+			FileMove($TempFile & $downName, @AutoItExe, 1)
+
+			MsgBox(1, "Version updated", $title & " has been updated. Please relaunch application.")
+			Exit
+
+		 EndIf
    EndIf
 
 EndFunc

@@ -1,7 +1,7 @@
-; DIDownloader
+$title = "DIDownloader"
 ; Author: Lucas Messenger
 $prodVer = "0.2"
-$fileVer = "0.2.0.2"
+$fileVer = "0.1.0.2"
 ; Created: 6/6/2014
 $modified = "9/2/2014"
 ; ---------------------------------
