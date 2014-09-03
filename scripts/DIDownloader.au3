@@ -40,6 +40,8 @@ Global $validLink = False
 Dim $height = 275
 Dim $width = 450
 
+_checkFileVersion()
+
 ; GUI Create
 GUICreate("DIDownloader", $width, $height)
 GUISetIcon("DIDownloader.exe", 0)
@@ -56,8 +58,6 @@ Dim $oList = GUICtrlCreateList("", 5, 60, 440, 200, BitOr($WS_VSCROLL, $WS_BORDE
 ; Labels
 GUICtrlCreateLabel("Paste Driver Identifier link below:", 5, 8)
 GUICtrlCreateLabel("DIDownloader v" & $prodVer & " | Updated " & $modified, 5, $height - 20)
-
-_checkFileVersion()
 
 ; GUI MESSAGE LOOP
 GUISetState(@SW_SHOW)
