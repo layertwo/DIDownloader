@@ -3,7 +3,7 @@ $title = "DIDownloader"
 $prodVer = "0.2.1"
 $fileVer = "0.2.1.0"
 ; Created: 6/6/2014
-$modified = "9/10/2014"
+$modified = "9/11/2014"
 ; ---------------------------------
 ; Link parser and downloader for DriverIdentifier links
 ; ---------------------------------
