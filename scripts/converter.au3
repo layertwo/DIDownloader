@@ -19,8 +19,7 @@ Func _convertLink()
 		 $fileName = StringTrimLeft($fileLink, $lastSlash)
 
 		 _GUICtrlListBox_BeginUpdate($oList)
-		 _GUICtrlListBox_AddString($oList, "Decoded: " & $fileLink)
-		 _GUICtrlListBox_AddString($oList, "")
+		 _GUICtrlListBox_AddString($oList, "Link has been decoded. The file name is " & $fileName)
 		 _GUICtrlListBox_EndUpdate($oList)
 
 		 $validLink = True
