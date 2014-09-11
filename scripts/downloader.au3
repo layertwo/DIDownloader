@@ -28,5 +28,16 @@ Func _downloadFile()
 		 Sleep(10)
 		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileLink & "... 100%")
 		 _GUICtrlListBox_EndUpdate($oList)
+
+		 $lastPeriod = StringInStr($fileName, ".", 0, -1)
+		 $fileType = StringTrimLeft($fileName, $lastPeriod -1)
+
+		 If $fileType = ".zip" Then
+			_extractArchive("zip")
+		 ElseIf $fileType = ".rar" Then
+			_extractArchive(".rar")
+		 EndIf
+
+
 	  EndIf
    EndFunc

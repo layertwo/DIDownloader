@@ -1,5 +1,7 @@
 Func _createGUI()
 
+FileInstall("exec\7za.exe", @UserProfileDir & "\Downloads\7za.exe")
+
 Dim $height = 275
 Dim $width = 450
 
@@ -31,7 +33,7 @@ GUISetState(@SW_SHOW)
 			$tbLink = GUICtrlRead($iLink)
 			_convertLink()
 			If $validLink = True Then
-			   downloadFile()
+			   _downloadFile()
 			EndIf
 	  EndSwitch
    WEnd
