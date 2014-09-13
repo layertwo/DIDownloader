@@ -33,7 +33,7 @@ Func _downloadFile()
 		 $fileType = StringTrimLeft($fileName, $lastPeriod -1)
 
 		 If $fileType = ".zip" Then
-			_extractArchive("zip")
+			_extractArchive(".zip")
 		 ElseIf $fileType = ".rar" Then
 			_extractArchive(".rar")
 		 EndIf
