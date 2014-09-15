@@ -1,7 +1,7 @@
 $title = "DIDownloader"
 ; Author: Lucas Messenger
 $prodVer = "0.3.0"
-$fileVer = "0.3.0.0"
+$fileVer = "0.3.0.1"
 ; Created: 6/6/2014
 $modified = "9/15/2014"
 ; ---------------------------------
@@ -17,7 +17,7 @@ $modified = "9/15/2014"
 #pragma compile(FileDescription, Link parser and file downloader)
 #pragma compile(ProductName, DIDownloader)
 #pragma compile(ProductVersion, 0.3.0)
-#pragma compile(FileVersion, 0.3.0.0)
+#pragma compile(FileVersion, 0.3.0.1)
 #pragma compile(LegalCopyright, 2014 - Lucas Messenger)
 
 

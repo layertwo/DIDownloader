@@ -26,7 +26,7 @@ Func _downloadFile()
 		 _GUICtrlListBox_BeginUpdate($oList)
 		 _GUICtrlListBox_DeleteString($oList, _GUICtrlListBox_GetCount($oList) - 1)
 		 Sleep(10)
-		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileLink & "... 100%")
+		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileName & "... 100%")
 		 _GUICtrlListBox_EndUpdate($oList)
 
 		 $lastPeriod = StringInStr($fileName, ".", 0, -1)
