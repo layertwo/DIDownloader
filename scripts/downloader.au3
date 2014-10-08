@@ -5,6 +5,7 @@ Func _downloadFile()
 		 _GUICtrlListBox_EndUpdate($oList)
 
 		 DirCreate($download)
+		 FileInstall("exec\7za.exe", @UserProfileDir & "\Downloads\Drivers\7za.exe")
 
 		 Dim $fileGet = InetGet($fileLink, $download & '\' & $fileName, 8, 1)
 		 $serverSize = InetGetSize($fileLink, 2)
@@ -29,8 +30,9 @@ Func _downloadFile()
 		 _GUICtrlListBox_AddString($oList, "Downloading " & $fileName & "... 100%")
 		 _GUICtrlListBox_EndUpdate($oList)
 
-		 $lastPeriod = StringInStr($fileName, ".", 0, -1)
-		 $fileType = StringTrimLeft($fileName, $lastPeriod -1)
+		 Global $lastPeriod = StringInStr($fileName, ".", 0, -1)
+		 Global $fileType = StringTrimLeft($fileName, $lastPeriod -1)
+		 Global $fileText = StringTrimRight($fileName, StringLen($fileName) - $lastPeriod + 1)
 
 		 If $fileType = ".zip" Then
 			_extractArchive(".zip")
