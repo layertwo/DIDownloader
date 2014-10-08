@@ -4,10 +4,12 @@ Func _extractArchive(ByRef $type)
 
 	  _GUICtrlListBox_BeginUpdate($oList)
 	  _GUICtrlListBox_AddString($oList, "Archive has been detected, currrently extracting...")
+	  _GUICtrlListBox_EndUpdate($oList)
 
+	  _GUICtrlListBox_BeginUpdate($oList)
    If $type = ".zip" Then
 
-	  RunWait(@ComSpec & " /k " & @UserProfileDir & "\Downloads\7za.exe x " & $download & '\' & $fileName & " -o" & $download, "")
+	  RunWait(@ComSpec & " /c " & @UserProfileDir & "\Downloads\Drivers\7za.exe x " & $download & '\' & $fileName & " -o" & $download & "\" & $fileText & " -aoa", "", @SW_HIDE)
 	  _GUICtrlListBox_AddString($oList, $fileName & " has been extracted.")
 
    ; Still in progress, is not properly extracting with
@@ -22,8 +24,8 @@ EndFunc
 
 Func _deleteExtracter()
 
-   If FileExists(@UserProfileDir & "\Downloads\7za.exe") Then
-	  FileDelete(@UserProfileDir & "\Downloads\7za.exe")
+   If FileExists(@UserProfileDir & "\Downloads\Drivers\7za.exe") Then
+	  FileDelete(@UserProfileDir & "\Downloads\Drivers\7za.exe")
    EndIf
 
 EndFunc
