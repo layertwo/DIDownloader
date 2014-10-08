@@ -1,7 +1,5 @@
 Func _createGUI()
 
-FileInstall("exec\7za.exe", @UserProfileDir & "\Downloads\7za.exe")
-
 Dim $height = 275
 Dim $width = 500
 
@@ -10,10 +8,16 @@ GUICreate("DIDownloader", $width, $height)
 GUISetIcon("DIDownloader.exe", 0)
 
 ; InputBox
-Global $iLink = GUICtrlCreateInput("", 5, 30, $width - 95, 25)
+Global $iLink = GUICtrlCreateInput("", 5, 30, $width - 155, 25)
 
 ; Buttons
-Global $bGo = GUICtrlCreateButton("&Go", $width - 85, 30, 80, 25)
+Global $bGo = GUICtrlCreateButton("&Go", $width - 147, 30, 70, 25)
+Global $bClear = GUICtrlCreateButton("Clear", $width - 75, 30, 70, 25)
+
+; Create dummy control for when Enter key is pressed
+$kEnter = GUICtrlCreateDummy()
+Dim $aEnter[1][2] = [["{ENTER}", $kEnter]]
+GUISetAccelerators($aEnter)
 
 ; OutputBox
 Global $oList = GUICtrlCreateList("", 5, 60, $width - 10, 200, BitOr($WS_VSCROLL, $WS_BORDER))
@@ -32,11 +36,10 @@ GUISetState(@SW_SHOW)
 			_deleteExtracter()
 			Exit
 
-		 Case $bGo
+		 Case $bGo, $kEnter
 
 			; Clear list
-			GUICtrlDelete($oList)
-			$oList = GUICtrlCreateList("", 5, 60, $width - 10, 200, BitOr($WS_VSCROLL, $WS_BORDER))
+			GUICtrlSetData($oList, "")
 
 			$tbLink = GUICtrlRead($iLink)
 			_convertLink()
@@ -45,6 +48,20 @@ GUISetState(@SW_SHOW)
 			   _downloadFile()
 
 			EndIf
+
+		 Case $bClear
+
+			; Clear box
+			GUICtrlSetData($iLink, "")
+
+			; Clear list
+			GUICtrlSetData($oList, "")
+
+			; Clear variables
+			$tbLink = ""
+			$fileLink = ""
+			$fileName = ""
+			$validLink = False
 
 	  EndSwitch
 
