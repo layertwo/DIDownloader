@@ -1,9 +1,3 @@
-#NoTrayIcon
-#include <InetConstants.au3>
-#include <file.au3>
-#include <MsgBoxConstants.au3>
-
-Global $title
 Global $localVer
 Global $latestVer
 Global $latestLink
