@@ -1,9 +1,9 @@
 $title = "DIDownloader"
 ; Author: Lucas Messenger
-$prodVer = "0.3.1"
-$fileVer = "0.3.0.4"
+$prodVer = "0.3.0"
+$fileVer = "0.3.0.3"
 ; Created: 6/6/2014
-$modified = "11/5/2014"
+$modified = "10/7/2014"
 ; ---------------------------------
 ; Link parser and downloader for DriverIdentifier links
 ; ---------------------------------
@@ -16,8 +16,8 @@ $modified = "11/5/2014"
 
 #pragma compile(FileDescription, DIDownloader)
 #pragma compile(ProductName, DIDownloader)
-#pragma compile(ProductVersion, 0.3.1)
-#pragma compile(FileVersion, 0.3.0.4)
+#pragma compile(ProductVersion, 0.3.0)
+#pragma compile(FileVersion, 0.3.0.3)
 #pragma compile(LegalCopyright, 2014 - Lucas Messenger)
 
 
@@ -46,7 +46,6 @@ Global $tbLink = ""
 Global $fileLink = ""
 Global $fileName = ""
 Global $validLink = False
-Global $i = 0
 
 ;_checkFileVersion()
 _createGUI()
